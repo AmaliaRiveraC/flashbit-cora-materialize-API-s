@@ -49,12 +49,15 @@ var botonPublicar = document.getElementsByClassName("publicar");
 botonPublicar[0].addEventListener("click", function () {
   var titulo = areaTitulo.value;
   var mensaje = areaMensaje.value;
+  var div = document.createElement("div");
   var h5 = document.createElement("h5");
   h5.textContent = titulo;
   var parrafo = document.createElement("p");
   parrafo.textContent = mensaje;
-  areaPublicacion.appendChild(h5);
-  areaPublicacion.appendChild(parrafo);
+  div.appendChild(h5);
+  div.appendChild(parrafo);
+  areaPublicacion.appendChild(div);
+  div.className = "container " + "center " +"card-panel " + "hoverable";
   areaTitulo.value = " ";
   areaMensaje.value = " ";
   fondoModal[0].style.display = "none";
@@ -70,25 +73,47 @@ var usuarioImagen = document.getElementById("image-file");
 
 botonPublicar[1].addEventListener("click", function (e) {
   var tituloImg = areaTituloImg.value;
+  var div = document.createElement("div");
   var h5 = document.createElement("h5");
   h5.textContent = tituloImg;
   var reader = new FileReader();
   reader.readAsDataURL(usuarioImagen.files[0]);
 
   reader.onload = function () {
-    
+
     var imagen = new Image();
     imagen.src = reader.result;
     imagen.classList.add("image-responsive", "col", "s12");
-    areaPublicacion.appendChild(h5);
-    areaPublicacion.appendChild(imagen);
+    div.className = "container " + "center " + "card-panel " + "hoverable";
+    div.appendChild(h5);
+    div.appendChild(imagen);
+    areaPublicacion.appendChild(div);
     areaTituloImg.value = " ";
   }
-  e.preventDefault();
-  usuarioImagen.value = null;
+  usuarioImagen.value = null; // esta línea pretende limpiar el input file pero no lo consigue
   fondoModal[1].style.display = "none";
   modal[1].style.display = "none";
 });
 
 
+/* Evento y geolocalización*/
+var mapa = document.getElementById("map");
 
+function initMap() {
+        var uluru = {lat: -25.363, lng: 131.044};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });
+      }
+
+botonPublicar[2].addEventListener("click", function () {
+  fondoModal[2].style.display = "none";
+  modal[2].style.display = "none";
+  mapa.style.display = "flex";
+
+});
